@@ -1,0 +1,23 @@
+import cv2
+import numpy as np
+
+image = cv2.imread('humantest.png')
+
+#カスケード分類器読み込み
+hc = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
+
+#顔の座標xy幅高さを配列facesに
+faces = hc.detectMultiScale(image, minSize=(30, 30))
+
+if len(faces) == 0:
+	raise Exception('no faces')
+
+for x, y, w, h in faces:
+	#四角を描く
+	#cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+	# 入力画像から窓画像を切り取り
+	face_only= image[y:y+h, x:x+w]
+#表示 5000ms
+cv2.imshow('face',face_only)
+cv2.waitKey(5000)
+cv2.destroyAllWindows()
